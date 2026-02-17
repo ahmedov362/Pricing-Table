@@ -1,4 +1,4 @@
-/* Обнуляем отступы и фиксируем размеры */
+/* 1. Обнуление и база */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,19 +8,10 @@
 body {
   font-family: "Inter", "Segoe UI", Arial, sans-serif;
   min-height: 100vh;
-
-  /* Эти свойства принудительно включают качественное сглаживание */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-
-  /* Фикс фона: теперь он не повторяется и растягивается */
-  background: linear-gradient(
-    90deg,
-    rgb(0, 0, 0),
-    rgb(103, 241, 139),
-    rgb(0, 0, 0)
-  );
+  background: linear-gradient(90deg, rgb(0, 0, 0), rgb(103, 241, 139), rgb(0, 0, 0));
   background-attachment: fixed;
   color: white;
   display: flex;
@@ -34,23 +25,22 @@ h1 {
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Контейнер */
+/* 2. Контейнер */
 .pricing-container {
   display: flex;
-  gap: 30px; /* Уменьшил зазор для плавности flex-анимации */
+  gap: 30px;
   align-items: center;
   padding: 50px;
   width: 100%;
   max-width: 1200px;
-  perspective: 1000px; /* Добавляет глубины при наведении */
+  perspective: 1000px;
 }
 
-/* Общие стили карточек */
-.card,
-.card-popular {
+/* 3. Карточки */
+.card, .card-popular {
   flex: 1;
   background-color: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(10px); /* Модный эффект матового стекла */
+  backdrop-filter: blur(10px);
   text-align: center;
   padding: 40px;
   min-width: 250px;
@@ -62,13 +52,12 @@ h1 {
   justify-content: space-between;
   border: 1px solid rgba(103, 241, 139, 0.2);
   backface-visibility: hidden;
-  -webkit-font-smoothing: antialiased;
   transform: translateZ(0);
+  opacity: 0; /* Для анимации появления */
+  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-.card {
-  height: 350px;
-}
+.card { height: 350px; }
 
 .card-popular {
   flex: 1.2;
@@ -78,11 +67,12 @@ h1 {
   border: 2px solid rgba(103, 241, 139, 0.5);
 }
 
-/* Текстовые элементы */
-h3 {
+/* 4. Заголовки (теперь h2 вместо h3) */
+h2 {
   font-size: 28px;
   margin-bottom: 10px;
   transition: all 0.4s ease;
+  font-weight: bold;
 }
 
 .price {
@@ -92,10 +82,8 @@ h3 {
   color: #67f18b;
 }
 
-ul {
-  list-style: none;
-  margin-bottom: 20px;
-}
+/* 5. Списки */
+ul { list-style: none; margin-bottom: 20px; }
 
 li {
   font-size: 16px;
@@ -103,25 +91,15 @@ li {
   padding-bottom: 8px;
   border-bottom: 1px solid rgba(103, 241, 139, 0.1);
   transition: all 0.4s ease;
-  font-size: 16px;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(103, 241, 139, 0.1);
-  transition: all 0.4s ease;
-
-  /* Добавь это для идеальной четкости */
   display: block;
   line-height: 1.2;
-  transform: translateZ(0); /* Еще раз принудительно для каждой строки */
+  transform: translateZ(0);
 }
 
-li:last-child {
-  border-bottom: none;
-}
+li:last-child { border-bottom: none; }
 
-/* Кнопки */
-.btn,
-.btn-fat {
+/* 6. Кнопки */
+.btn, .btn-fat {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -134,82 +112,60 @@ li:last-child {
   font-weight: bold;
 }
 
-.btn {
-  padding: 12px 25px;
-  font-size: 16px;
-}
+.btn { padding: 12px 25px; font-size: 16px; }
+.btn-fat { padding: 15px 30px; font-size: 20px; }
 
-.btn-fat {
-  padding: 15px 30px;
-  font-size: 20px;
-}
-
-.btn:hover,
-.btn-fat:hover {
+.btn:hover, .btn-fat:hover {
   background: #67f18b;
   color: black;
   transform: scale(1.05);
 }
 
-/* Лента (Badge) */
+/* 7. Бейдж */
 .ribbon-wrapper {
-  width: 150px;
-  height: 150px;
+  width: 150px; height: 150px;
   overflow: hidden;
-  position: absolute;
-  top: -10px;
-  left: -10px;
+  position: absolute; top: -10px; left: -10px;
 }
-
-
 
 .badge::before {
   content: "ХИТ ПРОДАЖ";
   position: absolute;
-  display: block;
-  width: 250px; /* Длина самой полоски */
+  width: 250px;
   background: #ffc107;
   color: #000;
   text-align: center;
   padding: 8px 0;
   font-weight: bold;
   font-size: 13px;
-  
-  /* Позиционирование полоски точно в углу */
   top: 25px;
-  left: -75px; 
+  left: -75px;
   transform: rotate(-45deg);
   box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
-/* --- ИНТЕРАКТИВ (Hover эффекты) --- */
 
-/* Расширение активной карточки */
+/* 8. Интерактив (Hover) */
 .pricing-container .card:hover,
 .pricing-container .card-popular:hover {
   flex: 2;
   transform: translateY(-10px) scale(1.02);
   background-color: rgba(0, 0, 0, 0.85);
   box-shadow: rgba(103, 241, 139, 0.6) 0px 25px 60px;
-  cursor: pointer;
 }
-.card:hover {
-  height: 370px;
-}
-/* Увеличение текста при наведении */
-.card:hover h3,
-.card-popular:hover h3 {
+
+.card:hover { height: 370px; }
+
+/* Масштабирование h2 при ховере */
+.card:hover h2, .card-popular:hover h2 {
   font-size: 36px;
   color: #67f18b;
 }
 
-.card:hover li,
-.card-popular:hover li {
+.card:hover li, .card-popular:hover li {
   transform: scale(1.1);
-  transform-origin: center;
   border-bottom: 1px solid rgba(103, 241, 139, 0.4);
 }
 
-/* Эффект для остальных (соседних) карточек */
 .pricing-container:hover .card:not(:hover),
 .pricing-container:hover .card-popular:not(:hover) {
   flex: 0.7;
@@ -217,87 +173,20 @@ li:last-child {
   filter: blur(2px) grayscale(0.5);
 }
 
-/* Адаптивность для телефонов */
-@media (max-width: 768px) {
-  .pricing-container {
-    flex-direction: column;
-    padding: 20px;
-  }
-  .card,
-  .card-popular {
-    width: 100%;
-    flex: none !important; /* Отключаем расширение на мобилках */
-    height: auto;
-  }
-}
-.card,
-.card-popular,
-h3,
-li {
-  will-change: transform, flex;
-}
-/* Описываем саму анимацию появления */
+/* 9. Анимации */
 @keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(50px) scale(0.9);
-    filter: blur(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    /* Описываем саму анимацию появления */
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(50px) scale(0.9);
-        filter: blur(10px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: blur(0);
-      }
-    }
-
-    /* Применяем анимацию к карточкам */
-    .card,
-    .card-popular {
-      opacity: 0; /* Изначально скрыты */
-      animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    }
-
-    /* Устанавливаем задержку для каждой карточки, чтобы они шли друг за другом */
-    .card:nth-child(1) {
-      animation-delay: 0.2s;
-    }
-
-    .card-popular:nth-child(2) {
-      animation-delay: 0.4s;
-    }
-
-    .card:nth-child(3) {
-      animation-delay: 0.6s;
-    }
-  }
+  0% { opacity: 0; transform: translateY(50px) scale(0.9); filter: blur(10px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 
-/* Применяем анимацию к карточкам */
-.card,
-.card-popular {
-  opacity: 0; /* Изначально скрыты */
-  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+.card:nth-child(1) { animation-delay: 0.2s; }
+.card-popular:nth-child(2) { animation-delay: 0.4s; }
+.card:nth-child(3) { animation-delay: 0.6s; }
+
+/* 10. Адаптив */
+@media (max-width: 768px) {
+  .pricing-container { flex-direction: column; padding: 20px; }
+  .card, .card-popular { width: 100%; flex: none !important; height: auto; }
 }
 
-/* Устанавливаем задержку для каждой карточки, чтобы они шли друг за другом */
-.card:nth-child(1) {
-  animation-delay: 0.2s;
-}
-
-.card-popular:nth-child(2) {
-  animation-delay: 0.4s;
-}
-
-.card:nth-child(3) {
-  animation-delay: 0.6s;
-}
+.card, .card-popular, h2, li { will-change: transform, flex; }
